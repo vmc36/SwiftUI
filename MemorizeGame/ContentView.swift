@@ -13,12 +13,15 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            HStack {
+            LazyVGrid(columns:[GridItem(.adaptive(minimum: 65))]) {
                 ForEach(emojis[0..<emojiCount], id: \.self)
                 {
                     emoji in CardView(content: emoji)
+                        .aspectRatio(2/3, contentMode: .fit)
                 }
+                
             }
+            .padding(.top)
             Spacer()
             HStack {
                 add
@@ -34,16 +37,24 @@ struct ContentView: View {
     }
     
     var add : some View {
-        Button (action:{ emojiCount += 1 }, label: {
+        Button {
+            if emojiCount < emojis.count {
+                emojiCount += 1
+            }
+        } label: {
             Image(systemName: "plus.circle")
                 .foregroundColor(.blue)
-        })
+        }
     }
         var remove : some View {
-            Button (action:{emojiCount -= 1}, label: {
+            Button {
+                if emojiCount > 1 {
+                    emojiCount -= 1
+                }
+                } label: {
                Image(systemName: "minus.circle")
                     .foregroundColor(.blue)
-            })
+            }
         }
     }
 
